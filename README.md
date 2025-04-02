@@ -18,3 +18,8 @@ Potential improvements:
     Better exception handling solution wide
     Creating a class for returning configuration values all at once
     More Unit Tests
+
+Task1:
+    Run WeatherMonitor.Functions project
+Task2:
+    Setup multiple startup projects in Visual studio: weathermonitor.client for react and WeatherMonitor.Server for backend, run them both
