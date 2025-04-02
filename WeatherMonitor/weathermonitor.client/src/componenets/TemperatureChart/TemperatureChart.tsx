@@ -9,7 +9,7 @@ import {
     Tooltip,
     Legend
 } from 'chart.js';
-import { WeatherRecord } from '../types/weather';
+import { WeatherRecord } from '../../types/weather';
 
 ChartJS.register(
     CategoryScale,

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { WeatherRecord } from './types/weather';
 import { weatherService } from './services/api';
-import WeatherTable from '../src/componenets/WeatherTable';
-import TemperatureChart from '../src/componenets/TemperatureChart';
+import WeatherTable from './componenets/WeatherTable/WeatherTable';
+import TemperatureChart from './componenets/TemperatureChart/TemperatureChart';
 
 const App: React.FC = () => {
     const [records, setRecords] = useState<WeatherRecord[]>([]);

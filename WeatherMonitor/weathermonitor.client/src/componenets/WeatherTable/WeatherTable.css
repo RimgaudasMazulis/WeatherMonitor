@@ -1,0 +1,26 @@
+.table-container {
+    overflow-x: auto;
+}
+
+.weather-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border: 1px solid #e5e7eb; /* Matches Tailwind's border-gray-200 */
+}
+
+.weather-table th,
+.weather-table td {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+}
+
+.weather-table th {
+    background-color: #f3f4f6; /* Matches Tailwind's bg-gray-100 */
+    font-weight: bold;
+}
+
+.weather-table tr:hover {
+    background-color: #f9fafb; /* Matches Tailwind's hover:bg-gray-50 */
+    }
