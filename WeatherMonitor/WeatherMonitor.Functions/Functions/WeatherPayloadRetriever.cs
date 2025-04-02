@@ -29,7 +29,6 @@ namespace WeatherMonitor.Functions.Functions
         {
             _logger.LogInformation("GetWeatherPayload function processed a request");
 
-            // Parse query parameters
             var queryParams = System.Web.HttpUtility.ParseQueryString(req.Url.Query);
             var partitionKey = queryParams["partitionKey"];
             var rowKey = queryParams["rowKey"];
@@ -41,7 +40,6 @@ namespace WeatherMonitor.Functions.Functions
                 return badResponse;
             }
 
-            // Get the log entry to find the blob ID
             var log = await _logRepository.GetLogByIdAsync(partitionKey, rowKey);
             if (log == null)
             {
@@ -50,7 +48,6 @@ namespace WeatherMonitor.Functions.Functions
                 return notFoundResponse;
             }
 
-            // Get the payload from blob storage
             var payload = await _payloadRepository.GetPayloadAsync(log.BlobId);
             if (payload == null)
             {

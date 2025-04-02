@@ -16,6 +16,7 @@ namespace WeatherMonitor.Functions.Services
         private readonly IWeatherPayloadRepository _payloadRepository;
         private readonly ILogger<WeatherAzureService> _logger;
         private readonly string _apiKey;
+        private readonly string _baseUrl;
 
         public WeatherAzureService(
             HttpClient httpClient,
@@ -29,6 +30,7 @@ namespace WeatherMonitor.Functions.Services
             _payloadRepository = payloadRepository;
             _logger = logger;
             _apiKey = configuration["OpenWeatherMapApiKey"] ?? throw new ArgumentNullException("OpenWeatherMapApiKey configuration is missing");
+            _baseUrl = configuration["OpenWeatherMapBaseUrl"] ?? throw new ArgumentNullException("OpenWeatherMapBaseUrl configuration is missing");
         }
 
         public async Task FetchAndStoreWeatherDataAsync(string city)
@@ -38,7 +40,7 @@ namespace WeatherMonitor.Functions.Services
             try
             {
                 _logger.LogInformation($"Fetching weather data for {city}");
-                var url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={_apiKey}";
+                var url = $"{_baseUrl}/weather?q={city}&appid={_apiKey}";
                 var response = await _httpClient.GetAsync(url);
 
                 response.EnsureSuccessStatusCode();

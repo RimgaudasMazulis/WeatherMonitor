@@ -26,7 +26,6 @@ namespace WeatherMonitor.Functions.Functions
         {
             _logger.LogInformation("GetWeatherLogs function processed a request");
 
-            // Parse query parameters
             var queryParams = System.Web.HttpUtility.ParseQueryString(req.Url.Query);
 
             if (!DateTime.TryParse(queryParams["from"], out var fromDate) ||
