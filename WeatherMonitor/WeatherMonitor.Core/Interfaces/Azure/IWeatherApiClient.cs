@@ -4,7 +4,7 @@ namespace WeatherMonitor.Core.Interfaces.Azure
 {
     public interface IWeatherApiClient
     {
-        Task<WeatherApiResponse> GetWeatherDataAsync(string city, string country);
+        Task<WeatherApiResponse> GetWeatherDataAsync(string city);
         Task<string> GetWeatherDataAsStringAsync(string city);
     }
 }

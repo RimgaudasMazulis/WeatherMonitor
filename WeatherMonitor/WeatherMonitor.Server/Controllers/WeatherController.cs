@@ -22,10 +22,10 @@ namespace WeatherMonitor.Server.Controllers
             return Ok(records);
         }
 
-        [HttpGet("{country}/{city}")]
-        public async Task<ActionResult<WeatherRecord>> GetWeatherByCity(string country, string city)
+        [HttpGet("{city}")]
+        public async Task<ActionResult<WeatherRecord>> GetWeatherByCity(string city)
         {
-            var record = await _weatherService.GetWeatherRecordByCityAsync(city, country);
+            var record = await _weatherService.GetWeatherRecordByCityAsync(city);
 
             if (record == null)
             {
@@ -33,17 +33,6 @@ namespace WeatherMonitor.Server.Controllers
             }
 
             return Ok(record);
-        }
-
-        [HttpGet("minmax")]
-        public async Task<ActionResult<IEnumerable<WeatherRecord>>> GetMinMaxTemperatures(
-            [FromQuery] string country,
-            [FromQuery] string city,
-            [FromQuery] DateTime startDate,
-            [FromQuery] DateTime endDate)
-        {
-            var records = await _weatherService.GetMinMaxTemperaturesByCityAsync(city, country, startDate, endDate);
-            return Ok(records);
         }
     }
 }

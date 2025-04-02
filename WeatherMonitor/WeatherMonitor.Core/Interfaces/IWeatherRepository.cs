@@ -6,9 +6,8 @@ namespace WeatherMonitor.Core.Interfaces
     {
         Task<IEnumerable<WeatherRecord>> GetAllWeatherRecordsAsync();
         Task<IEnumerable<WeatherRecord>> GetWeatherRecordsByCountryAsync(string country);
-        Task<WeatherRecord> GetWeatherRecordByCityAsync(string city, string country);
+        Task<WeatherRecord> GetWeatherRecordByCityAsync(string city);
         Task<WeatherRecord> AddWeatherRecordAsync(WeatherRecord weatherRecord);
         Task<WeatherRecord> UpdateWeatherRecordAsync(WeatherRecord weatherRecord);
-        Task<IEnumerable<WeatherRecord>> GetMinMaxTemperaturesByCityAsync(string city, string country, DateTime startDate, DateTime endDate);
     }
 }

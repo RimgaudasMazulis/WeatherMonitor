@@ -77,11 +77,11 @@ namespace WeatherMonitor.Tests.API.Controllers
                 LastUpdated = DateTime.UtcNow
             };
 
-            _mockWeatherService.Setup(service => service.GetWeatherRecordByCityAsync(city, country))
+            _mockWeatherService.Setup(service => service.GetWeatherRecordByCityAsync(city))
                 .ReturnsAsync(expectedRecord);
 
             // Act
-            var result = await _controller.GetWeatherByCity(country, city);
+            var result = await _controller.GetWeatherByCity(city);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -94,64 +94,15 @@ namespace WeatherMonitor.Tests.API.Controllers
         {
             // Arrange
             string city = "NonExistentCity";
-            string country = "NonExistentCountry";
 
-            _mockWeatherService.Setup(service => service.GetWeatherRecordByCityAsync(city, country))
+            _mockWeatherService.Setup(service => service.GetWeatherRecordByCityAsync(city))
                 .ReturnsAsync((WeatherRecord)null);
 
             // Act
-            var result = await _controller.GetWeatherByCity(country, city);
+            var result = await _controller.GetWeatherByCity(city);
 
             // Assert
             Assert.IsType<NotFoundResult>(result.Result);
-        }
-
-        [Fact]
-        public async Task GetMinMaxTemperatures_ReturnsOkResultWithRecords()
-        {
-            // Arrange
-            string city = "Paris";
-            string country = "FR";
-            var startDate = DateTime.UtcNow.AddDays(-7);
-            var endDate = DateTime.UtcNow;
-
-            var expectedRecords = new List<WeatherRecord>
-            {
-                new WeatherRecord
-                {
-                    Id = 3,
-                    Country = country,
-                    City = city,
-                    Temperature = 18.0m,
-                    MinTemperature = 15.0m,
-                    MaxTemperature = 20.0m,
-                    RecordedAt = DateTime.UtcNow.AddDays(-6),
-                    LastUpdated = DateTime.UtcNow.AddDays(-6)
-                },
-                new WeatherRecord
-                {
-                    Id = 4,
-                    Country = country,
-                    City = city,
-                    Temperature = 19.5m,
-                    MinTemperature = 16.0m,
-                    MaxTemperature = 22.0m,
-                    RecordedAt = DateTime.UtcNow.AddDays(-3),
-                    LastUpdated = DateTime.UtcNow.AddDays(-3)
-                }
-            };
-
-            _mockWeatherService.Setup(service => service.GetMinMaxTemperaturesByCityAsync(
-                    city, country, startDate, endDate))
-                .ReturnsAsync(expectedRecords);
-
-            // Act
-            var result = await _controller.GetMinMaxTemperatures(country, city, startDate, endDate);
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            var returnValue = Assert.IsAssignableFrom<IEnumerable<WeatherRecord>>(okResult.Value);
-            Assert.Equal(expectedRecords, returnValue);
         }
     }
 }
