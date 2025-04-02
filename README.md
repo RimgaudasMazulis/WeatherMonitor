@@ -12,3 +12,9 @@ Functions:
     - FetchWeatherData - runs every minute to fetch weather data from https://api.openweathermap.org
     - GetWeatherLogs - example HTTP call: http://localhost:7004/api/GetWeatherLogs?from=2025-03-01&to=2025-04-03
     - GetWeatherPayload - example HTTP call: http://localhost:7004/api/GetWeatherPayload?partitionKey=20250402&rowKey=094804-eace8786
+
+Potential improvements: 
+    Use Automapper to avoid mapping each entity to a similar one
+    Better exception handling solution wide
+    Creating a class for returning configuration values all at once
+    More Unit Tests
