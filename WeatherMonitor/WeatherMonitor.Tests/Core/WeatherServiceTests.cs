@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Moq;
 using WeatherMonitor.Core.Entities;
 using WeatherMonitor.Core.Interfaces;
@@ -84,22 +83,22 @@ namespace WeatherMonitor.Tests.Core
                 LastUpdated = DateTime.UtcNow
             };
 
-            _mockRepository.Setup(repo => repo.GetWeatherRecordByCityAsync(city, country))
+            _mockRepository.Setup(repo => repo.GetWeatherRecordByCityAsync(city))
                 .ReturnsAsync(expectedRecord);
 
             // Act
-            var result = await _service.GetWeatherRecordByCityAsync(city, country);
+            var result = await _service.GetWeatherRecordByCityAsync(city);
 
             // Assert
             Assert.Equal(expectedRecord, result);
-            _mockRepository.Verify(repo => repo.GetWeatherRecordByCityAsync(city, country), Times.Once);
+            _mockRepository.Verify(repo => repo.GetWeatherRecordByCityAsync(city), Times.Once);
         }
 
         [Fact]
         public async Task UpdateWeatherDataAsync_ShouldUpdateAllMonitoredLocations()
         {
             // Arrange
-            _mockApiClient.Setup(client => client.GetWeatherDataAsync(It.IsAny<string>(), It.IsAny<string>()))
+            _mockApiClient.Setup(client => client.GetWeatherDataAsync(It.IsAny<string>()))
                 .ReturnsAsync(new WeatherApiResponse
                 {
                     City = "TestCity",
@@ -118,58 +117,10 @@ namespace WeatherMonitor.Tests.Core
 
             // Assert - We should have called the API client and repository for each monitored location
             // The exact count depends on the number of locations defined in the WeatherService
-            _mockApiClient.Verify(client => client.GetWeatherDataAsync(It.IsAny<string>(), It.IsAny<string>()),
+            _mockApiClient.Verify(client => client.GetWeatherDataAsync(It.IsAny<string>()),
                 Times.AtLeast(1));
             _mockRepository.Verify(repo => repo.UpdateWeatherRecordAsync(It.IsAny<WeatherRecord>()),
                 Times.AtLeast(1));
-        }
-
-        [Fact]
-        public async Task GetMinMaxTemperaturesByCityAsync_ShouldReturnCorrectRecords()
-        {
-            // Arrange
-            string city = "Paris";
-            string country = "FR";
-            var startDate = DateTime.UtcNow.AddDays(-7);
-            var endDate = DateTime.UtcNow;
-
-            var expectedRecords = new List<WeatherRecord>
-            {
-                new WeatherRecord
-                {
-                    Id = 3,
-                    Country = country,
-                    City = city,
-                    Temperature = 18.0m,
-                    MinTemperature = 15.0m,
-                    MaxTemperature = 20.0m,
-                    RecordedAt = DateTime.UtcNow.AddDays(-6),
-                    LastUpdated = DateTime.UtcNow.AddDays(-6)
-                },
-                new WeatherRecord
-                {
-                    Id = 4,
-                    Country = country,
-                    City = city,
-                    Temperature = 19.5m,
-                    MinTemperature = 16.0m,
-                    MaxTemperature = 22.0m,
-                    RecordedAt = DateTime.UtcNow.AddDays(-3),
-                    LastUpdated = DateTime.UtcNow.AddDays(-3)
-                }
-            };
-
-            _mockRepository.Setup(repo => repo.GetMinMaxTemperaturesByCityAsync(
-                    city, country, startDate, endDate))
-                .ReturnsAsync(expectedRecords);
-
-            // Act
-            var result = await _service.GetMinMaxTemperaturesByCityAsync(city, country, startDate, endDate);
-
-            // Assert
-            Assert.Equal(expectedRecords, result);
-            _mockRepository.Verify(repo => repo.GetMinMaxTemperaturesByCityAsync(
-                city, country, startDate, endDate), Times.Once);
         }
     }
 }

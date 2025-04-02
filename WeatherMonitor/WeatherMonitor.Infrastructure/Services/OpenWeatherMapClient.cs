@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using WeatherMonitor.Core.Interfaces.Azure;
 using WeatherMonitor.Core.Models;
 
@@ -21,10 +22,10 @@ namespace WeatherMonitor.Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task<WeatherApiResponse> GetWeatherDataAsync(string city, string country)
+        public async Task<WeatherApiResponse> GetWeatherDataAsync(string city)
         {
             var response = await _httpClient.GetAsync(
-                $"{_baseUrl}/weather?q={city},{country}&units=metric&appid={_apiKey}");
+                $"{_baseUrl}/weather?q={city}&units=metric&appid={_apiKey}");
 
             response.EnsureSuccessStatusCode();
 
@@ -34,10 +35,10 @@ namespace WeatherMonitor.Infrastructure.Services
             return new WeatherApiResponse
             {
                 City = city,
-                Country = country,
-                Temperature = (decimal)weatherData.main.temp,
-                MinTemperature = (decimal)weatherData.main.temp_min,
-                MaxTemperature = (decimal)weatherData.main.temp_max,
+                Country = weatherData?.Sys.Country ?? string.Empty,
+                Temperature = (decimal)weatherData.Main.Temperature,
+                MinTemperature = (decimal)weatherData.Main.MinTemperature,
+                MaxTemperature = (decimal)weatherData.Main.MaxTemperature,
                 LastUpdated = DateTime.UtcNow
             };
         }
@@ -55,13 +56,28 @@ namespace WeatherMonitor.Infrastructure.Services
 
         private class OpenWeatherResponse
         {
-            public MainData main { get; set; }
+            [JsonPropertyName("main")]
+            public MainData Main { get; set; }
+
+            [JsonPropertyName("sys")]
+            public SysData Sys { get; set; }
 
             public class MainData
             {
-                public float temp { get; set; }
-                public float temp_min { get; set; }
-                public float temp_max { get; set; }
+                [JsonPropertyName("temp")]
+                public float Temperature { get; set; }
+
+                [JsonPropertyName("temp_min")]
+                public float MinTemperature { get; set; }
+
+                [JsonPropertyName("temp_max")]
+                public float MaxTemperature { get; set; }
+            }
+
+            public class SysData
+            {
+                [JsonPropertyName("country")]
+                public string Country { get; set; }
             }
         }
     }

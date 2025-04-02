@@ -10,7 +10,7 @@ namespace WeatherMonitor.Core.Services
         private readonly IWeatherRepository _repository;
         private readonly IWeatherApiClient _weatherApiClient;
         private readonly ILogger<WeatherService> _logger;
-        private readonly List<(string Country, string City)> _monitoredLocations;
+        private readonly List<string> _monitoredLocations;
 
         public WeatherService(
             IWeatherRepository repository,
@@ -21,14 +21,14 @@ namespace WeatherMonitor.Core.Services
             _weatherApiClient = weatherApiClient;
             _logger = logger;
 
-            _monitoredLocations = new List<(string Country, string City)>
+            _monitoredLocations = new List<string>
             {
-                ("US", "New York"),
-                ("US", "Los Angeles"),
-                ("UK", "London"),
-                ("UK", "Manchester"),
-                ("FR", "Paris"),
-                ("FR", "Lyon")
+                "New York",
+                "Los Angeles",
+                "London",
+                "Manchester",
+                "Paris",
+                "Lyon"
             };
         }
 
@@ -37,23 +37,23 @@ namespace WeatherMonitor.Core.Services
             return await _repository.GetAllWeatherRecordsAsync();
         }
 
-        public async Task<WeatherRecord> GetWeatherRecordByCityAsync(string city, string country)
+        public async Task<WeatherRecord> GetWeatherRecordByCityAsync(string city)
         {
-            return await _repository.GetWeatherRecordByCityAsync(city, country);
+            return await _repository.GetWeatherRecordByCityAsync(city);
         }
 
         public async Task UpdateWeatherDataAsync()
         {
-            foreach (var (country, city) in _monitoredLocations)
+            foreach (var city in _monitoredLocations)
             {
                 try
                 {
-                    var weatherData = await _weatherApiClient.GetWeatherDataAsync(city, country);
+                    var weatherData = await _weatherApiClient.GetWeatherDataAsync(city);
 
                     var weatherRecord = new WeatherRecord
                     {
                         City = city,
-                        Country = country,
+                        Country = weatherData.Country,
                         Temperature = weatherData.Temperature,
                         MinTemperature = weatherData.MinTemperature,
                         MaxTemperature = weatherData.MaxTemperature,
@@ -65,15 +65,9 @@ namespace WeatherMonitor.Core.Services
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError($"Failed to fetch newest weather information for country: {country}, city {city}", e);
+                    _logger.LogError($"Failed to fetch newest weather information for city {city}", e);
                 }
             }
-        }
-
-        public async Task<IEnumerable<WeatherRecord>> GetMinMaxTemperaturesByCityAsync(
-            string city, string country, DateTime startDate, DateTime endDate)
-        {
-            return await _repository.GetMinMaxTemperaturesByCityAsync(city, country, startDate, endDate);
         }
     }
 }

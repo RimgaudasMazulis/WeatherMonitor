@@ -26,10 +26,10 @@ namespace WeatherMonitor.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<WeatherRecord> GetWeatherRecordByCityAsync(string city, string country)
+        public async Task<WeatherRecord> GetWeatherRecordByCityAsync(string city)
         {
             return await _context.WeatherRecords
-                .FirstOrDefaultAsync(w => w.City == city && w.Country == country);
+                .FirstOrDefaultAsync(w => w.City == city);
         }
 
         public async Task<WeatherRecord> AddWeatherRecordAsync(WeatherRecord weatherRecord)
@@ -50,32 +50,12 @@ namespace WeatherMonitor.Infrastructure.Repositories
             }
 
             existingRecord.Temperature = weatherRecord.Temperature;
-
-            if (weatherRecord.Temperature < existingRecord.MinTemperature)
-            {
-                existingRecord.MinTemperature = weatherRecord.Temperature;
-            }
-
-            if (weatherRecord.Temperature > existingRecord.MaxTemperature)
-            {
-                existingRecord.MaxTemperature = weatherRecord.Temperature;
-            }
-
+            existingRecord.MinTemperature = weatherRecord.MinTemperature;
+            existingRecord.MaxTemperature = weatherRecord.MaxTemperature;
             existingRecord.LastUpdated = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
             return existingRecord;
-        }
-
-        public async Task<IEnumerable<WeatherRecord>> GetMinMaxTemperaturesByCityAsync(
-            string city, string country, DateTime startDate, DateTime endDate)
-        {
-            return await _context.WeatherRecords
-                .Where(w => w.City == city &&
-                           w.Country == country &&
-                           w.RecordedAt >= startDate &&
-                           w.RecordedAt <= endDate)
-                .ToListAsync();
         }
     }
 }

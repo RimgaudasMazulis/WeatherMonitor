@@ -96,7 +96,7 @@ namespace WeatherMonitor.Tests.Infrastructure
             var repository = new WeatherRepository(context);
 
             // Act
-            var record = await repository.GetWeatherRecordByCityAsync("London", "UK");
+            var record = await repository.GetWeatherRecordByCityAsync("London");
 
             // Assert
             Assert.NotNull(record);
@@ -166,60 +166,6 @@ namespace WeatherMonitor.Tests.Infrastructure
             var records = await context.WeatherRecords.ToListAsync();
             Assert.Equal(4, records.Count);
             Assert.Contains(records, r => r.City == "Berlin" && r.Country == "DE");
-        }
-
-        [Fact]
-        public async Task GetMinMaxTemperaturesByCityAsync_ShouldReturnRecordsInDateRange()
-        {
-            // Arrange
-            using var context = new ApplicationDbContext(_dbContextOptions);
-
-            // Add multiple records for the same city with different dates
-            await context.WeatherRecords.AddRangeAsync(new[]
-            {
-                new WeatherRecord
-                {
-                    Country = "FR",
-                    City = "Paris",
-                    Temperature = 18.0m,
-                    MinTemperature = 15.0m,
-                    MaxTemperature = 20.0m,
-                    RecordedAt = DateTime.UtcNow.AddDays(-10),
-                    LastUpdated = DateTime.UtcNow.AddDays(-10)
-                },
-                new WeatherRecord
-                {
-                    Country = "FR",
-                    City = "Paris",
-                    Temperature = 19.0m,
-                    MinTemperature = 16.0m,
-                    MaxTemperature = 21.0m,
-                    RecordedAt = DateTime.UtcNow.AddDays(-5),
-                    LastUpdated = DateTime.UtcNow.AddDays(-5)
-                },
-                new WeatherRecord
-                {
-                    Country = "FR",
-                    City = "Paris",
-                    Temperature = 20.0m,
-                    MinTemperature = 17.0m,
-                    MaxTemperature = 22.0m,
-                    RecordedAt = DateTime.UtcNow.AddDays(-2),
-                    LastUpdated = DateTime.UtcNow.AddDays(-2)
-                }
-            });
-            await context.SaveChangesAsync();
-
-            var repository = new WeatherRepository(context);
-            var startDate = DateTime.UtcNow.AddDays(-7);
-            var endDate = DateTime.UtcNow;
-
-            // Act
-            var records = await repository.GetMinMaxTemperaturesByCityAsync("Paris", "FR", startDate, endDate);
-
-            // Assert
-            Assert.Equal(2, records.Count());
-            Assert.All(records, r => Assert.True(r.RecordedAt >= startDate && r.RecordedAt <= endDate));
         }
     }
 }
