@@ -18,6 +18,10 @@ Potential improvements:
     Better exception handling solution wide
     Creating a class for returning configuration values all at once
     More Unit Tests
+    Tests could be split into different projects to mimic each project in the solution
+    Could add cancelation tokens on all requests that are going into the database
+    Notracking on db entities
+    Move cities into configuration and read it from there
 
 Task1:
     Run WeatherMonitor.Functions project
