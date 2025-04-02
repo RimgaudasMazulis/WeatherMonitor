@@ -3,7 +3,7 @@ using Moq;
 using WeatherMonitor.Core.Entities;
 using WeatherMonitor.Core.Interfaces;
 using WeatherMonitor.Core.Models;
-using WeatherMonitor.Core.Services;
+using WeatherMonitor.Services.Services;
 using Xunit;
 
 

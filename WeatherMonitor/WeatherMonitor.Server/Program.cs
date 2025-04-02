@@ -1,11 +1,11 @@
 
 using Microsoft.EntityFrameworkCore;
 using WeatherMonitor.Core.Interfaces;
-using WeatherMonitor.Core.Services;
 using WeatherMonitor.Infrastructure.Data;
 using WeatherMonitor.Infrastructure.Repositories;
-using WeatherMonitor.Infrastructure.Services;
+using WeatherMonitor.Server.Middleware;
 using WeatherMonitor.Server.Services;
+using WeatherMonitor.Services.Services;
 
 namespace WeatherMonitor.Server
 {
@@ -56,6 +56,7 @@ namespace WeatherMonitor.Server
                 app.UseHsts();
             }
 
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

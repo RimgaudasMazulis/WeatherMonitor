@@ -30,6 +30,7 @@
     </ProjectReference>
     <ProjectReference Include="..\WeatherMonitor.Core\WeatherMonitor.Core.csproj" />
     <ProjectReference Include="..\WeatherMonitor.Infrastructure\WeatherMonitor.Infrastructure.csproj" />
+    <ProjectReference Include="..\WeatherMonitor.Services\WeatherMonitor.Services.csproj" />
   </ItemGroup>
 
 </Project>
