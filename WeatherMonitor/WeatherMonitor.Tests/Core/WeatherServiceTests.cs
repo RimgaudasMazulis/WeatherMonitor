@@ -5,6 +5,7 @@ using WeatherMonitor.Core.Interfaces;
 using WeatherMonitor.Core.Interfaces.Azure;
 using WeatherMonitor.Core.Models;
 using WeatherMonitor.Core.Services;
+using Xunit;
 
 
 namespace WeatherMonitor.Tests.Core
@@ -115,8 +116,6 @@ namespace WeatherMonitor.Tests.Core
             // Act
             await _service.UpdateWeatherDataAsync();
 
-            // Assert - We should have called the API client and repository for each monitored location
-            // The exact count depends on the number of locations defined in the WeatherService
             _mockApiClient.Verify(client => client.GetWeatherDataAsync(It.IsAny<string>()),
                 Times.AtLeast(1));
             _mockRepository.Verify(repo => repo.UpdateWeatherRecordAsync(It.IsAny<WeatherRecord>()),

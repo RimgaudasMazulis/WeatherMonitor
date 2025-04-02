@@ -7,26 +7,36 @@ namespace WeatherMonitor.Infrastructure.Repositories.Azure
 {
     public class WeatherPayloadRepository : IWeatherPayloadRepository
     {
-        private readonly BlobContainerClient _containerClient;
+        private readonly IConfiguration _configuration;
+        private BlobContainerClient? _containerClient;
 
         public WeatherPayloadRepository(IConfiguration configuration)
         {
-            var connectionString = configuration["AzureWebJobsStorage"];
-            var blobServiceClient = new BlobServiceClient(connectionString);
-            _containerClient = blobServiceClient.GetBlobContainerClient("weather-payloads");
-            _containerClient.CreateIfNotExists();
+            _configuration = configuration;
+        }
+
+        protected virtual BlobContainerClient GetBlobContainerClient()
+        {
+            if (_containerClient == null)
+            {
+                var connectionString = _configuration["AzureWebJobsStorage"];
+                var blobServiceClient = new BlobServiceClient(connectionString);
+                _containerClient = blobServiceClient.GetBlobContainerClient("weather-payloads");
+                _containerClient.CreateIfNotExists();
+            }
+            return _containerClient;
         }
 
         public async Task StorePayloadAsync(string blobId, string payload)
         {
-            var blobClient = _containerClient.GetBlobClient(blobId);
+            var blobClient = GetBlobContainerClient().GetBlobClient(blobId);
             using var stream = new MemoryStream(Encoding.UTF8.GetBytes(payload));
             await blobClient.UploadAsync(stream, overwrite: true);
         }
 
         public async Task<string?> GetPayloadAsync(string blobId)
         {
-            var blobClient = _containerClient.GetBlobClient(blobId);
+            var blobClient = GetBlobContainerClient().GetBlobClient(blobId);
 
             if (!await blobClient.ExistsAsync())
             {

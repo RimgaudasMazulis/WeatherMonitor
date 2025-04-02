@@ -8,19 +8,29 @@ namespace WeatherMonitor.Infrastructure.Repositories.Azure
 {
     public class WeatherLogRepository : IWeatherLogRepository
     {
-        private readonly TableClient _tableClient;
+        private readonly IConfiguration _configuration;
+        private TableClient? _tableClient;
 
         public WeatherLogRepository(IConfiguration configuration)
         {
-            var connectionString = configuration["AzureWebJobsStorage"];
-            var tableServiceClient = new TableServiceClient(connectionString);
-            _tableClient = tableServiceClient.GetTableClient("WeatherLogs");
-            _tableClient.CreateIfNotExists();
+            _configuration = configuration;
+        }
+
+        protected virtual TableClient GetTableClient()
+        {
+            if (_tableClient == null)
+            {
+                var connectionString = _configuration["AzureWebJobsStorage"];
+                var tableServiceClient = new TableServiceClient(connectionString);
+                _tableClient = tableServiceClient.GetTableClient("WeatherLogs");
+                _tableClient.CreateIfNotExists();
+            }
+            return _tableClient;
         }
 
         public async Task AddLogAsync(WeatherLog log)
         {
-            await _tableClient.AddEntityAsync(log);
+            await GetTableClient().AddEntityAsync(log);
         }
 
         public async Task<IEnumerable<WeatherLog>> GetLogsByTimeRangeAsync(DateTime startTime, DateTime endTime)
@@ -37,7 +47,7 @@ namespace WeatherMonitor.Infrastructure.Repositories.Azure
             var results = new List<WeatherLog>();
             foreach (var partitionKey in partitionKeys)
             {
-                var query = _tableClient.QueryAsync<WeatherLog>(filter: $"PartitionKey eq '{partitionKey}'");
+                var query = GetTableClient().QueryAsync<WeatherLog>(filter: $"PartitionKey eq '{partitionKey}'");
 
                 await foreach (var log in query)
                 {
@@ -55,7 +65,7 @@ namespace WeatherMonitor.Infrastructure.Repositories.Azure
         {
             try
             {
-                var response = await _tableClient.GetEntityAsync<WeatherLog>(partitionKey, rowKey);
+                var response = await GetTableClient().GetEntityAsync<WeatherLog>(partitionKey, rowKey);
                 return response.Value;
             }
             catch (RequestFailedException)

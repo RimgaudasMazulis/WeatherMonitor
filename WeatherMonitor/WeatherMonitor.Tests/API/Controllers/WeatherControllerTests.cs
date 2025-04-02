@@ -3,6 +3,7 @@ using Moq;
 using WeatherMonitor.Core.Entities;
 using WeatherMonitor.Core.Interfaces;
 using WeatherMonitor.Server.Controllers;
+using Xunit;
 
 namespace WeatherMonitor.Tests.API.Controllers
 {

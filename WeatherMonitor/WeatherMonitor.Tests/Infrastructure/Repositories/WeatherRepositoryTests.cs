@@ -2,8 +2,9 @@
 using WeatherMonitor.Core.Entities;
 using WeatherMonitor.Infrastructure.Data;
 using WeatherMonitor.Infrastructure.Repositories;
+using Xunit;
 
-namespace WeatherMonitor.Tests.Infrastructure
+namespace WeatherMonitor.Tests.Infrastructure.Repositories
 {
     public class WeatherRepositoryTests
     {

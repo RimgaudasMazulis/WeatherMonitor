@@ -43,17 +43,6 @@ namespace WeatherMonitor.Infrastructure.Services
             };
         }
 
-        public async Task<string> GetWeatherDataAsStringAsync(string city)
-        {
-            _logger.LogInformation($"Fetching weather data for {city}");
-            var url = $"{_baseUrl}/weather?q={city}&appid={_apiKey}";
-            var response = await _httpClient.GetAsync(url);
-
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadAsStringAsync();
-        }
-
         private class OpenWeatherResponse
         {
             [JsonPropertyName("main")]
