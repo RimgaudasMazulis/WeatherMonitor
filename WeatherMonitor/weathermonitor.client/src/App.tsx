@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { WeatherRecord } from './types/weather';
 import { weatherService } from './services/api';
+import './App.css';
 import WeatherTable from './componenets/WeatherTable/WeatherTable';
 import TemperatureChart from './componenets/TemperatureChart/TemperatureChart';
 
@@ -32,27 +33,27 @@ const App: React.FC = () => {
     }, []);
 
     if (loading) {
-        return <div className="text-center p-4">Loading weather data...</div>;
+        return <div className="loading">Loading weather data...</div>;
     }
 
     if (error) {
-        return <div className="text-center p-4 text-red-500">{error}</div>;
+        return <div className="error">{error}</div>;
     }
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Weather Monitoring Dashboard</h1>
-            <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-2">Current Weather Data</h2>
+        <div className="app-container">
+            <h1 className="app-title">Weather Monitoring Dashboard</h1>
+            <div className="section">
+                <h2 className="section-title">Current Weather Data</h2>
                 <WeatherTable records={records} />
             </div>
-            <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-2">Temperature Comparison</h2>
-                <div className="h-96">
+            <div className="section">
+                <h2 className="section-title">Temperature Comparison</h2>
+                <div className="chart-container">
                     <TemperatureChart records={records} />
                 </div>
             </div>
-            <div className="text-sm text-gray-500">
+            <div className="last-updated">
                 Last updated: {new Date().toLocaleString()}
             </div>
         </div>

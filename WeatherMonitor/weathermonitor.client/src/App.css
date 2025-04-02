@@ -1,19 +1,46 @@
-﻿#root {
-    max-width: 1280px;
+﻿.app-container {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1rem;
+    font-family: sans-serif;
+}
+
+.app-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.chart-container {
+    height: 24rem; 
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.loading {
     text-align: center;
+    padding: 1rem;
+    font-size: 1rem;
 }
 
-tr:nth-child(even) {
-    background: #F2F2F2;
+.error {
+    text-align: center;
+    padding: 1rem;
+    color: #ef4444; 
+    font-size: 1rem;
 }
 
-tr:nth-child(odd) {
-    background: #FFF;
-}
-
-th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
+.last-updated {
+    font-size:
