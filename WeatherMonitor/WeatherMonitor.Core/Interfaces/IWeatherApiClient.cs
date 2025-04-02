@@ -1,6 +1,6 @@
 ﻿using WeatherMonitor.Core.Models;
 
-namespace WeatherMonitor.Core.Interfaces.Azure
+namespace WeatherMonitor.Core.Interfaces
 {
     public interface IWeatherApiClient
     {

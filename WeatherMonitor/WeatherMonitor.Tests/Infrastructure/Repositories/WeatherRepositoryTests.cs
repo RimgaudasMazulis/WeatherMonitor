@@ -29,7 +29,6 @@ namespace WeatherMonitor.Tests.Infrastructure.Repositories
                     Temperature = 20.5m,
                     MinTemperature = 18.0m,
                     MaxTemperature = 22.0m,
-                    RecordedAt = DateTime.UtcNow.AddDays(-1),
                     LastUpdated = DateTime.UtcNow.AddDays(-1)
                 },
                 new WeatherRecord
@@ -39,7 +38,6 @@ namespace WeatherMonitor.Tests.Infrastructure.Repositories
                     Temperature = 15.0m,
                     MinTemperature = 12.0m,
                     MaxTemperature = 17.0m,
-                    RecordedAt = DateTime.UtcNow.AddDays(-1),
                     LastUpdated = DateTime.UtcNow.AddDays(-1)
                 },
                 new WeatherRecord
@@ -49,7 +47,6 @@ namespace WeatherMonitor.Tests.Infrastructure.Repositories
                     Temperature = 18.0m,
                     MinTemperature = 15.0m,
                     MaxTemperature = 20.0m,
-                    RecordedAt = DateTime.UtcNow.AddDays(-1),
                     LastUpdated = DateTime.UtcNow.AddDays(-1)
                 }
             });
@@ -120,7 +117,6 @@ namespace WeatherMonitor.Tests.Infrastructure.Repositories
                 Temperature = 18.0m,
                 MinTemperature = 12.0m,
                 MaxTemperature = 18.0m,
-                RecordedAt = DateTime.UtcNow,
                 LastUpdated = DateTime.UtcNow
             };
 
@@ -153,7 +149,6 @@ namespace WeatherMonitor.Tests.Infrastructure.Repositories
                 Temperature = 14.0m,
                 MinTemperature = 10.0m,
                 MaxTemperature = 16.0m,
-                RecordedAt = DateTime.UtcNow,
                 LastUpdated = DateTime.UtcNow
             };
 

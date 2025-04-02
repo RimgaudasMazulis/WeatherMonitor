@@ -32,7 +32,6 @@ namespace WeatherMonitor.Tests.API.Controllers
                     Temperature = 20.5m,
                     MinTemperature = 18.0m,
                     MaxTemperature = 22.0m,
-                    RecordedAt = DateTime.UtcNow,
                     LastUpdated = DateTime.UtcNow
                 },
                 new WeatherRecord
@@ -43,7 +42,6 @@ namespace WeatherMonitor.Tests.API.Controllers
                     Temperature = 15.0m,
                     MinTemperature = 12.0m,
                     MaxTemperature = 17.0m,
-                    RecordedAt = DateTime.UtcNow,
                     LastUpdated = DateTime.UtcNow
                 }
             };
@@ -74,7 +72,6 @@ namespace WeatherMonitor.Tests.API.Controllers
                 Temperature = 18.0m,
                 MinTemperature = 15.0m,
                 MaxTemperature = 20.0m,
-                RecordedAt = DateTime.UtcNow,
                 LastUpdated = DateTime.UtcNow
             };
 

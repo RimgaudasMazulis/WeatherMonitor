@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using WeatherMonitor.Core.Interfaces.Azure;
+using WeatherMonitor.Core.Interfaces;
 using WeatherMonitor.Core.Models;
 
 namespace WeatherMonitor.Infrastructure.Services

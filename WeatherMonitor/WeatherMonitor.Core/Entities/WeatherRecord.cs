@@ -8,7 +8,6 @@
         public decimal Temperature { get; set; }
         public decimal MinTemperature { get; set; }
         public decimal MaxTemperature { get; set; }
-        public DateTime RecordedAt { get; set; }
         public DateTime LastUpdated { get; set; }
     }
 }

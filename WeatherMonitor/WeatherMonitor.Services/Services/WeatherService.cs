@@ -2,7 +2,7 @@
 using WeatherMonitor.Core.Entities;
 using WeatherMonitor.Core.Interfaces;
 
-namespace WeatherMonitor.Core.Services
+namespace WeatherMonitor.Services.Services
 {
     public class WeatherService : IWeatherService
     {

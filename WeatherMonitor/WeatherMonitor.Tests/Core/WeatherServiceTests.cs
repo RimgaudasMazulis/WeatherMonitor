@@ -2,7 +2,6 @@
 using Moq;
 using WeatherMonitor.Core.Entities;
 using WeatherMonitor.Core.Interfaces;
-using WeatherMonitor.Core.Interfaces.Azure;
 using WeatherMonitor.Core.Models;
 using WeatherMonitor.Core.Services;
 using Xunit;
@@ -39,7 +38,6 @@ namespace WeatherMonitor.Tests.Core
                     Temperature = 20.5m,
                     MinTemperature = 18.0m,
                     MaxTemperature = 22.0m,
-                    RecordedAt = DateTime.UtcNow,
                     LastUpdated = DateTime.UtcNow
                 },
                 new WeatherRecord
@@ -50,7 +48,6 @@ namespace WeatherMonitor.Tests.Core
                     Temperature = 15.0m,
                     MinTemperature = 12.0m,
                     MaxTemperature = 17.0m,
-                    RecordedAt = DateTime.UtcNow,
                     LastUpdated = DateTime.UtcNow
                 }
             };
@@ -80,7 +77,6 @@ namespace WeatherMonitor.Tests.Core
                 Temperature = 18.0m,
                 MinTemperature = 15.0m,
                 MaxTemperature = 20.0m,
-                RecordedAt = DateTime.UtcNow,
                 LastUpdated = DateTime.UtcNow
             };
 

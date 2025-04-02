@@ -1,7 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using WeatherMonitor.Core.Interfaces;
-using WeatherMonitor.Core.Interfaces.Azure;
 using WeatherMonitor.Core.Services;
 using WeatherMonitor.Infrastructure.Data;
 using WeatherMonitor.Infrastructure.Repositories;
